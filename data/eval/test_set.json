@@ -1,0 +1,218 @@
+[
+  {
+    "id": "q0000",
+    "question_type": "summary",
+    "question": "What is the paper 'Continuous Benchmark Evaluation for Enterprise Retrieval Pipelines' about?",
+    "ground_truth": "Static benchmarks fail to capture domain drift in enterprise knowledge bases. We establish a synthetic test generator that auto-creates paired evaluation sets whenever new corpora are ingested.",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671812"
+    ]
+  },
+  {
+    "id": "q0001",
+    "question_type": "authors",
+    "question": "Who authored the paper 'Continuous Benchmark Evaluation for Enterprise Retrieval Pipelines'?",
+    "ground_truth": "Quang Le, Yen Vu",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671812"
+    ]
+  },
+  {
+    "id": "q0002",
+    "question_type": "date",
+    "question": "When was the paper 'Continuous Benchmark Evaluation for Enterprise Retrieval Pipelines' published?",
+    "ground_truth": "2026-07-22",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671812"
+    ]
+  },
+  {
+    "id": "q0003",
+    "question_type": "categories",
+    "question": "What categories does the paper 'Continuous Benchmark Evaluation for Enterprise Retrieval Pipelines' belong to?",
+    "ground_truth": "Evaluation Methodology, Enterprise Systems",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671812"
+    ]
+  },
+  {
+    "id": "q0004",
+    "question_type": "summary",
+    "question": "What is the paper 'Data Observability and Quality Gates for Production RAG Systems' about?",
+    "ground_truth": "Silent data corruption in RAG pipelines degrades LLM answer faithfulness without throwing runtime errors. We introduce automated quality gates using Great Expectations 1.x to catch stale and malformed embeddings before serving.",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671802"
+    ]
+  },
+  {
+    "id": "q0005",
+    "question_type": "authors",
+    "question": "Who authored the paper 'Data Observability and Quality Gates for Production RAG Systems'?",
+    "ground_truth": "Anh Tran, Quoc Pham",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671802"
+    ]
+  },
+  {
+    "id": "q0006",
+    "question_type": "date",
+    "question": "When was the paper 'Data Observability and Quality Gates for Production RAG Systems' published?",
+    "ground_truth": "2026-06-12",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671802"
+    ]
+  },
+  {
+    "id": "q0007",
+    "question_type": "categories",
+    "question": "What categories does the paper 'Data Observability and Quality Gates for Production RAG Systems' belong to?",
+    "ground_truth": "Software Engineering, Data Systems",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671802"
+    ]
+  },
+  {
+    "id": "q0008",
+    "question_type": "summary",
+    "question": "What is the paper 'Advanced Perspectives on Chunking Strategies for Technical Documentation Retrieval' about?",
+    "ground_truth": "An extended empirical study on ierarchical and semantic boundary chunking preserves code block contexts and markdown headings. Our benchmark demonstrates superior top-1 recall compared to fixed character length sliding windows Further analysis on scaling parameters.",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671821"
+    ]
+  },
+  {
+    "id": "q0009",
+    "question_type": "authors",
+    "question": "Who authored the paper 'Advanced Perspectives on Chunking Strategies for Technical Documentation Retrieval'?",
+    "ground_truth": "Long Trinh, Ha Chu",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671821"
+    ]
+  },
+  {
+    "id": "q0010",
+    "question_type": "date",
+    "question": "When was the paper 'Advanced Perspectives on Chunking Strategies for Technical Documentation Retrieval' published?",
+    "ground_truth": "2026-06-09",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671821"
+    ]
+  },
+  {
+    "id": "q0011",
+    "question_type": "categories",
+    "question": "What categories does the paper 'Advanced Perspectives on Chunking Strategies for Technical Documentation Retrieval' belong to?",
+    "ground_truth": "Information Retrieval, Natural Language Processing",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671821"
+    ]
+  },
+  {
+    "id": "q0012",
+    "question_type": "summary",
+    "question": "What is the paper 'Advanced Perspectives on Semantic Layer Integration for Agentic Text-to-SQL Pipelines' about?",
+    "ground_truth": "An extended empirical study on onnecting LLMs directly to raw warehouse tables often results in schema misunderstandings. A governed semantic layer standardizes business metric definitions, dramatically boosting SQL generation accuracy Further analysis on scaling parameters.",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671818"
+    ]
+  },
+  {
+    "id": "q0013",
+    "question_type": "authors",
+    "question": "Who authored the paper 'Advanced Perspectives on Semantic Layer Integration for Agentic Text-to-SQL Pipelines'?",
+    "ground_truth": "Huy Dinh, Trang Vo",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671818"
+    ]
+  },
+  {
+    "id": "q0014",
+    "question_type": "date",
+    "question": "When was the paper 'Advanced Perspectives on Semantic Layer Integration for Agentic Text-to-SQL Pipelines' published?",
+    "ground_truth": "2026-06-06",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671818"
+    ]
+  },
+  {
+    "id": "q0015",
+    "question_type": "categories",
+    "question": "What categories does the paper 'Advanced Perspectives on Semantic Layer Integration for Agentic Text-to-SQL Pipelines' belong to?",
+    "ground_truth": "Databases, Information Systems",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671818"
+    ]
+  },
+  {
+    "id": "q0016",
+    "question_type": "summary",
+    "question": "What is the paper 'Advanced Perspectives on Data Observability and Quality Gates for Production RAG Systems' about?",
+    "ground_truth": "An extended empirical study on ilent data corruption in RAG pipelines degrades LLM answer faithfulness without throwing runtime errors. We introduce automated quality gates using Great Expectations 1.x to catch stale and malformed embeddings before serving Further analysis on scaling parameters.",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671814"
+    ]
+  },
+  {
+    "id": "q0017",
+    "question_type": "authors",
+    "question": "Who authored the paper 'Advanced Perspectives on Data Observability and Quality Gates for Production RAG Systems'?",
+    "ground_truth": "Anh Tran, Quoc Pham",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671814"
+    ]
+  },
+  {
+    "id": "q0018",
+    "question_type": "date",
+    "question": "When was the paper 'Advanced Perspectives on Data Observability and Quality Gates for Production RAG Systems' published?",
+    "ground_truth": "2026-06-02",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671814"
+    ]
+  },
+  {
+    "id": "q0019",
+    "question_type": "categories",
+    "question": "What categories does the paper 'Advanced Perspectives on Data Observability and Quality Gates for Production RAG Systems' belong to?",
+    "ground_truth": "Software Engineering, Data Systems",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671814"
+    ]
+  },
+  {
+    "id": "q0020",
+    "question_type": "summary",
+    "question": "What is the paper 'Semantic Layer Integration for Agentic Text-to-SQL Pipelines' about?",
+    "ground_truth": "Connecting LLMs directly to raw warehouse tables often results in schema misunderstandings. A governed semantic layer standardizes business metric definitions, dramatically boosting SQL generation accuracy.",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671806"
+    ]
+  },
+  {
+    "id": "q0021",
+    "question_type": "authors",
+    "question": "Who authored the paper 'Semantic Layer Integration for Agentic Text-to-SQL Pipelines'?",
+    "ground_truth": "Huy Dinh, Trang Vo",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671806"
+    ]
+  },
+  {
+    "id": "q0022",
+    "question_type": "date",
+    "question": "When was the paper 'Semantic Layer Integration for Agentic Text-to-SQL Pipelines' published?",
+    "ground_truth": "2026-05-02",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671806"
+    ]
+  },
+  {
+    "id": "q0023",
+    "question_type": "categories",
+    "question": "What categories does the paper 'Semantic Layer Integration for Agentic Text-to-SQL Pipelines' belong to?",
+    "ground_truth": "Databases, Information Systems",
+    "ground_truth_doc_ids": [
+      "10.1145/3637528.3671806"
+    ]
+  }
+]

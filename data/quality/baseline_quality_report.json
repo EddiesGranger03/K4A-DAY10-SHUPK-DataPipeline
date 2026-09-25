@@ -1,0 +1,59 @@
+{
+  "report_name": "baseline_quality_report",
+  "passed": true,
+  "success": true,
+  "total_checks": 7,
+  "passed_checks": 7,
+  "failed_checks": 0,
+  "results": [
+    {
+      "expectation": "ExpectTableRowCountToBeBetween(min=5, max=5000)",
+      "check_name": "row_count_between_5_and_5000",
+      "passed": true,
+      "observed_value": 24
+    },
+    {
+      "expectation": "ExpectColumnValuesToNotBeNull(column='paper_id')",
+      "check_name": "paper_id_not_null",
+      "passed": true,
+      "observed_value": 0
+    },
+    {
+      "expectation": "ExpectColumnValuesToNotBeNull(column='title')",
+      "check_name": "title_not_null",
+      "passed": true,
+      "observed_value": 0
+    },
+    {
+      "expectation": "ExpectColumnValuesToNotBeNull(column='text_for_embedding')",
+      "check_name": "text_for_embedding_not_null",
+      "passed": true,
+      "observed_value": 0
+    },
+    {
+      "expectation": "ExpectColumnValuesToBeUnique(column='paper_id')",
+      "check_name": "paper_id_unique",
+      "passed": true,
+      "observed_value": {
+        "unique": 24,
+        "total": 24
+      }
+    },
+    {
+      "expectation": "ExpectColumnValueLengthsToBeBetween(column='summary', min=30)",
+      "check_name": "summary_min_length_30",
+      "passed": true,
+      "observed_value": 0
+    },
+    {
+      "expectation": "CustomCheck: stale_ratio <= 0.25 (Guide B\u01b0\u1edbc 4)",
+      "check_name": "freshness_stale_ratio_lte_25pct",
+      "passed": true,
+      "observed_value": {
+        "stale_ratio": 0.0417,
+        "stale_count": 1,
+        "threshold_days": 180
+      }
+    }
+  ]
+}

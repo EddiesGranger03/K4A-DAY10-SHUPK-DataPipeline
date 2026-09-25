@@ -1,0 +1,5 @@
+Title: Evaluating Retrieval Precision with Token F1 and LLM Judges
+Authors: Tuan Phan, Mai Bui
+Published: 2026-03-28
+Categories: Natural Language Processing, Evaluation Methodology
+Summary: Evaluating open-domain QA requires robust metrics. We benchmark semantic similarity, token-level overlap F1, and model-based judge verdicts to quantify RAG answer correctness across noisy corpus conditions.ÿÿÿÿ

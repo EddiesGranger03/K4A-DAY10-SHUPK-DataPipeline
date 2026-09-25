@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sylva Workflow - RAG Pipeline</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #059669; /* Living Green */
+            --primary-light: #34d399;
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.15);
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #022c22;
+            font-family: 'Lexend', sans-serif;
+            color: var(--text-main);
+        }
+
+        /* The actual Sylva Hero Background from ThreeUI */
+        #sylva-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            border: none;
+            z-index: 1;
+        }
+
+        /* Overlay UI */
+        #ui-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 10;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header {
+            position: absolute;
+            top: 40px;
+            text-align: center;
+            pointer-events: auto;
+            animation: fadeInDown 1s ease-out;
+            width: 100%;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #a7f3d0, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 30px rgba(52, 211, 153, 0.2);
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 300;
+            margin-top: 10px;
+        }
+
+        .card-aura {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 400px;
+            height: 400px;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(52, 211, 153, 0.4) 0%, rgba(5, 150, 105, 0.2) 40%, transparent 70%);
+            filter: blur(40px);
+            z-index: 2;
+            animation: pulseAura 6s infinite alternate, spinAura 15s linear infinite;
+            pointer-events: none;
+        }
+
+        #cards-container {
+            position: relative;
+            width: 100%;
+            height: 450px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1500px;
+            pointer-events: auto;
+        }
+
+        .card {
+            position: absolute;
+            width: 340px;
+            height: 480px;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 32px;
+            padding: 40px 30px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-origin: center center;
+            opacity: 0;
+            pointer-events: none;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+            z-index: 0;
+            transition: opacity 0.5s;
+        }
+        
+        .card::after {
+            content: '';
+            position: absolute;
+            top: -20%; left: -20%; width: 140%; height: 140%;
+            background: radial-gradient(circle at 50% 30%, rgba(52, 211, 153, 0.15) 0%, transparent 60%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .card > * {
+            z-index: 1;
+            position: relative;
+        }
+
+        .card.active {
+            opacity: 1;
+            transform: translateX(0) scale(1) translateZ(0);
+            pointer-events: auto;
+            z-index: 5;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 30px 60px rgba(4, 120, 87, 0.3), inset 0 1px 0 rgba(255,255,255,0.5);
+        }
+
+        .card.active .card-desc, .card.active .card-title {
+            animation: textReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes textReveal {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card.prev {
+            opacity: 0.6;
+            transform: translateX(-110%) scale(0.85) translateZ(-100px) rotateY(10deg);
+            z-index: 4;
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        .card.next {
+            opacity: 0.6;
+            transform: translateX(110%) scale(0.85) translateZ(-100px) rotateY(-10deg);
+            z-index: 4;
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        .card.hidden-left {
+            opacity: 0;
+            transform: translateX(-200%) scale(0.7) translateZ(-200px);
+        }
+
+        .card.hidden-right {
+            opacity: 0;
+            transform: translateX(200%) scale(0.7) translateZ(-200px);
+        }
+
+        .card:hover.prev, .card:hover.next {
+            opacity: 0.9;
+        }
+
+        .card-num {
+            position: absolute;
+            top: 30px; left: 30px;
+            font-size: 4rem;
+            font-weight: 700;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.4);
+            margin-bottom: auto;
+            line-height: 1;
+            font-family: 'Lexend', sans-serif;
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin: 0 0 15px 0;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            opacity: 0;
+        }
+
+        .card-desc {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+            font-weight: 300;
+            opacity: 0;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.5);
+        }
+
+        .highlight { color: var(--primary-light); font-weight: 500; }
+        .alert { color: #fca5a5; font-weight: 500; }
+
+        /* Liquid Metal Controls */
+        #controls {
+            position: absolute;
+            bottom: 60px;
+            display: flex;
+            gap: 20px;
+            pointer-events: auto;
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+
+        .liquid-btn {
+            background: linear-gradient(135deg, #f4f4f5 0%, #a1a1aa 50%, #71717a 100%);
+            border: 1px solid rgba(255,255,255,0.5);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                inset 2px 2px 6px rgba(255,255,255,0.9),
+                inset -2px -2px 6px rgba(0,0,0,0.3),
+                0 10px 25px rgba(0,0,0,0.5);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .liquid-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.8) 50%, transparent 60%);
+            transform: rotate(45deg) translate(-100%, -100%);
+            transition: transform 0.6s;
+        }
+
+        .liquid-btn:hover {
+            transform: scale(1.15) translateY(-2px);
+            box-shadow: 
+                inset 2px 2px 8px rgba(255,255,255,1),
+                inset -2px -2px 8px rgba(0,0,0,0.4),
+                0 15px 30px rgba(5, 150, 105, 0.4);
+        }
+
+        .liquid-btn:hover::after {
+            transform: rotate(45deg) translate(100%, 100%);
+        }
+        
+        .liquid-btn:active { transform: scale(0.95); }
+
+        .liquid-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: #18181b;
+            z-index: 1;
+        }
+
+        .progress {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin: 0 15px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: var(--primary-light);
+            box-shadow: 0 0 10px var(--primary-light);
+            transform: scale(1.2);
+        }
+
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulseAura {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+            100% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+        }
+        @keyframes spinAura {
+            0% { transform: translate(-50%, -50%) rotate(0deg) scaleX(1.1); }
+            100% { transform: translate(-50%, -50%) rotate(360deg) scaleX(1.1); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Load Exact DesignCode Sylva Background via Sandboxed Iframe -->
+    <iframe id="sylva-background" src="landing-pages/inner-green-3d.html" sandbox="allow-scripts allow-same-origin"></iframe>
+
+    <div id="ui-layer">
+        <div class="header">
+            <h1>Sylva: RAG Data Observability</h1>
+            <p>Living World 3D Scene - Card Interactive Workflow</p>
+        </div>
+
+        <div class="card-aura"></div>
+
+        <div id="cards-container">
+            <!-- Cards will be generated by JS -->
+        </div>
+
+        <div id="controls">
+            <button class="liquid-btn" id="prev-btn" onclick="goPrev()">
+                <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            </button>
+            
+            <div class="progress" id="progress-dots"></div>
+
+            <button class="liquid-btn" id="next-btn" onclick="goNext()">
+                <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const workflowData = [
+            {
+                title: "Raw API Ingestion",
+                desc: "Kết nối tới Crossref API để tải bài báo. <br><br><span class='highlight'>Bí kíp:</span> Lưu lại bản sao Raw làm 'phao cứu sinh' (Raw Preservation) để phục hồi."
+            },
+            {
+                title: "Data Cleaning",
+                desc: "\"Quét rác\" dữ liệu: Xóa các thẻ HTML/JATS XML ẩn, chuẩn hóa format. <br><br>Biến đống lộn xộn thành văn bản tinh khiết."
+            },
+            {
+                title: "Quality Gate",
+                desc: "Tấm khiên bảo vệ bằng Great Expectations. <br><br>Ngăn chặn ngay dữ liệu trùng lặp, thiếu trường hoặc <span class='alert'>quá cũ (Stale Data)</span>."
+            },
+            {
+                title: "Vector Database",
+                desc: "Sử dụng MiniLM để nhúng văn bản sạch thành vector. <br><br>Lưu trữ vào ChromaDB để AI RAG sẵn sàng truy xuất thông tin."
+            },
+            {
+                title: "RAG Evaluation",
+                desc: "AI tự chấm điểm AI (LLM Judge) dựa trên Test Set nội bộ. <br><br>Hệ thống vượt mốc đánh giá với <span class='highlight'>Hit Rate 100%</span> (Baseline)."
+            },
+            {
+                title: "Data Corruption",
+                desc: "Giả lập 6 lỗi thực tế để quan sát <span class='alert'>Silent Failure</span>. <br><br>Hit Rate rớt xuống 83% nhưng hệ thống báo động đỏ kịp thời qua GX."
+            },
+            {
+                title: "Idempotent Repair",
+                desc: "Chạy lại từ Raw Data. <br><br>Mọi chỉ số phục hồi ngoạn mục về <span class='highlight'>100% Hit Rate</span>. Kết quả luôn bất biến (Idempotent)."
+            }
+        ];
+
+        let currentIndex = 0;
+        const container = document.getElementById('cards-container');
+        const dotsContainer = document.getElementById('progress-dots');
+
+        // Generate Cards & Dots
+        workflowData.forEach((data, index) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.id = `card-${index}`;
+            card.innerHTML = `
+                <div class="card-num">0${index + 1}</div>
+                <h3 class="card-title">${data.title}</h3>
+                <p class="card-desc">${data.desc}</p>
+            `;
+            // Click to navigate directly
+            card.onclick = () => goTo(index);
+            container.appendChild(card);
+
+            const dot = document.createElement('div');
+            dot.className = 'dot';
+            dot.id = `dot-${index}`;
+            dotsContainer.appendChild(dot);
+        });
+
+        const cards = document.querySelectorAll('.card');
+        const dots = document.querySelectorAll('.dot');
+
+        function updateCards() {
+            cards.forEach((card, index) => {
+                card.className = 'card'; // Reset classes
+                if (index === currentIndex) {
+                    card.classList.add('active');
+                } else if (index === currentIndex - 1) {
+                    card.classList.add('prev');
+                } else if (index === currentIndex + 1) {
+                    card.classList.add('next');
+                } else if (index < currentIndex) {
+                    card.classList.add('hidden-left');
+                } else {
+                    card.classList.add('hidden-right');
+                }
+            });
+
+            dots.forEach((dot, index) => {
+                if(index === currentIndex) dot.classList.add('active');
+                else dot.classList.remove('active');
+            });
+        }
+
+        function goNext() {
+            if (currentIndex < cards.length - 1) {
+                currentIndex++;
+                updateCards();
+            }
+        }
+
+        function goPrev() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCards();
+            }
+        }
+
+        function goTo(index) {
+            currentIndex = index;
+            updateCards();
+        }
+
+        // Initialize state
+        updateCards();
+
+        // Keyboard navigation
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') goNext();
+            if (e.key === 'ArrowLeft') goPrev();
+        });
+    </script>
+</body>
+</html>

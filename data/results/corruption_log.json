@@ -1,0 +1,58 @@
+[
+  {
+    "type": "drop_rows",
+    "paper_ids": [
+      "10.1145/3637528.3671812",
+      "10.1145/3637528.3671808",
+      "10.1145/3637528.3671804",
+      "10.1145/3637528.3671807"
+    ],
+    "count": 4
+  },
+  {
+    "type": "blank_summary",
+    "row_indices": [
+      1,
+      7,
+      9,
+      12,
+      19
+    ],
+    "count": 5
+  },
+  {
+    "type": "inject_noise",
+    "row_indices": [
+      3,
+      6,
+      7
+    ],
+    "count": 3
+  },
+  {
+    "type": "truncate_title",
+    "row_indices": [
+      4
+    ],
+    "count": 1
+  },
+  {
+    "type": "stale_published_date",
+    "row_indices": [
+      5,
+      6,
+      7,
+      11,
+      17
+    ],
+    "count": 5
+  },
+  {
+    "type": "add_duplicates",
+    "row_indices": [
+      17,
+      8
+    ],
+    "count": 2
+  }
+]

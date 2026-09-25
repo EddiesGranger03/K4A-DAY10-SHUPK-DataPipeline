@@ -1,0 +1,32 @@
+[
+  {
+    "question": "What papers discuss agentic RAG systems?",
+    "answer": "A single LLM is susceptible to confirmation bias when evaluating retrieved evidence.",
+    "retrieved_titles": [
+      "Multi-Agent Consensus for High-Stakes Fact Verification",
+      "Advanced Perspectives on Agentic Retrieval-Augmented Generation for Knowledge-Intensive Tasks",
+      "Agentic Retrieval-Augmented Generation for Knowledge-Intensive Tasks",
+      "Advanced Perspectives on Multi-Agent Consensus for High-Stakes Fact Verification"
+    ]
+  },
+  {
+    "question": "Who authored the paper about data observability?",
+    "answer": "Anh Tran, Quoc Pham",
+    "retrieved_titles": [
+      "Advanced Perspectives on Data Observability and Quality Gates for Production RAG Systems",
+      "Data Observability and Quality Gates for Production RAG Systems",
+      "Automated Data Quality Profiling with Great Expectations in CI/CD",
+      "Advanced Perspectives on Automated Data Quality Profiling with Great Expectations in CI/CD"
+    ]
+  },
+  {
+    "question": "When was the most recent paper published?",
+    "answer": "2026-07-05",
+    "retrieved_titles": [
+      "Freshness SLAs for Real-Time LLM Knowledge Augmentation",
+      "Advanced Perspectives on Freshness SLAs for Real-Time LLM Knowledge Augmentation",
+      "Multi-Agent Consensus for High-Stakes Fact Verification",
+      "Advanced Perspectives on Multi-Agent Consensus for High-Stakes Fact Verification"
+    ]
+  }
+]
