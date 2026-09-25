@@ -6,10 +6,10 @@
 
 | Thong tin | Noi dung |
 | --- | --- |
-| Ho va ten | Can bo sung |
-| MSSV | Can bo sung |
+| Ho va ten | Bùi Thị Thu Uyên |
+| MSSV | 2A202602613 |
 | Khoa/Lop | K4-L3A |
-| Ten nhom | Can bo sung |
+| Ten nhom | SHUPK |
 | Vai tro chinh | Pipeline integration, quality gate va evaluation review |
 | Repository | K4-L3A-Day10-Data-Pipeline-Data-Observability |
 | Ngay hoan thanh | 2026-09-25 |
