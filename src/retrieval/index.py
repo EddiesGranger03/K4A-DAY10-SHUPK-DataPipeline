@@ -116,7 +116,7 @@ class LocalEmbeddingIndex:
             {
                 "backend": "chroma",
                 "embedding_model": settings.embedding_model,
-                "persist_path": str(persist_path),
+                "persist_path": str(persist_path.relative_to(settings.paths.project_dir)),
                 "collection_name": collection_name,
                 "documents": documents,
             },
@@ -131,11 +131,14 @@ class LocalEmbeddingIndex:
     @classmethod
     def load(cls, settings: Settings, embeddings_path: Path | None = None) -> "LocalEmbeddingIndex":
         payload = read_json(embeddings_path or settings.paths.embeddings_json)
+        persist_path = Path(payload["persist_path"])
+        if not persist_path.is_absolute():
+            persist_path = settings.paths.project_dir / persist_path
         return cls(
             settings=settings,
             collection_name=payload["collection_name"],
             documents=payload["documents"],
-            persist_path=Path(payload["persist_path"]),
+            persist_path=persist_path,
         )
 
     def search(self, query: str, top_k: int | None = None) -> list[SearchResult]:

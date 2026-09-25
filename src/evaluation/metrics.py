@@ -1,21 +1,22 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from collections import Counter
 from statistics import mean
 import os
 import sys
 import types
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from datasets import Dataset
 from pydantic import BaseModel, Field
 
 from core.config import Settings
 from core.utils import normalize_whitespace, read_json, write_json
-from retrieval.embeddings import MiniLMEmbeddings
-from retrieval.index import LocalEmbeddingIndex
 from retrieval.llm import build_llm
-from retrieval.qa import answer_question
+
+if TYPE_CHECKING:
+    from retrieval.index import LocalEmbeddingIndex
 
 
 class JudgeVerdict(BaseModel):
@@ -35,13 +36,13 @@ def _token_f1(reference: str, prediction: str) -> float:
     pred_tokens = normalize_whitespace(prediction).lower().split()
     if not ref_tokens or not pred_tokens:
         return 0.0
-    ref_set = set(ref_tokens)
-    pred_set = set(pred_tokens)
-    overlap = len(ref_set & pred_set)
+    ref_counts = Counter(ref_tokens)
+    pred_counts = Counter(pred_tokens)
+    overlap = sum((ref_counts & pred_counts).values())
     if overlap == 0:
         return 0.0
-    precision = overlap / len(pred_set)
-    recall = overlap / len(ref_set)
+    precision = overlap / len(pred_tokens)
+    recall = overlap / len(ref_tokens)
     return 2 * precision * recall / (precision + recall)
 
 
@@ -80,6 +81,7 @@ def _run_ragas(settings: Settings, answers: list[dict[str, Any]]) -> dict[str, A
             sys.modules["langchain_community.chat_models.vertexai"] = shim
         from ragas import evaluate
         from ragas.metrics import answer_relevancy, context_precision, context_recall, faithfulness
+        from retrieval.embeddings import MiniLMEmbeddings
 
         dataset = Dataset.from_dict(
             {
@@ -107,6 +109,8 @@ def evaluate_pipeline(
     metrics_output_path,
     answers_output_path,
 ) -> EvaluationBundle:
+    from retrieval.qa import answer_question
+
     test_set = read_json(test_set_path)
     answers: list[dict[str, Any]] = []
 
